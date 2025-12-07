@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D5F32AB02EE5CAAC0022C102 /* ReadMe.md in Resources */ = {isa = PBXBuildFile; fileRef = D5F32AA32EE5CAAC0022C102 /* ReadMe.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		D5F32A992EE5CAAC0022C102 /* MedTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = MedTracker.app; path = "/Users/mohamedbondok/Desktop/Uni/MSC FH Campus/Semester 3/Mobile App Development/Project MedTracker/MedTracker/MedTracker/build/Debug-iphoneos/MedTracker.app"; sourceTree = "<absolute>"; };
+		D5F32AA32EE5CAAC0022C102 /* ReadMe.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ReadMe.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +37,7 @@
 		D5F32A452EE5AB780022C102 = {
 			isa = PBXGroup;
 			children = (
+				D5F32AA32EE5CAAC0022C102 /* ReadMe.md */,
 				D5F32A502EE5AB780022C102 /* MedTracker */,
 			);
 			sourceTree = "<group>";
@@ -100,6 +106,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5F32AB02EE5CAAC0022C102 /* ReadMe.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
