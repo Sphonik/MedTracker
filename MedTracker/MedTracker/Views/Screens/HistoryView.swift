@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct HistoryView: View {
-    // Wir laden alle Logs, sortiert: Neueste oben
+    
     @Query(sort: \IntakeLog.date, order: .reverse) private var logs: [IntakeLog]
     
     var body: some View {
@@ -26,7 +26,7 @@ struct HistoryView: View {
                         HStack {
                             // Linke Seite: Medikamenten Info
                             VStack(alignment: .leading) {
-                                // Falls das Medikament gelöscht wurde, zeigen wir einen Fallback
+                                // Falls das Medikament gelöscht wurde, Fallback
                                 Text(log.medication?.name ?? "Unbekanntes Medikament")
                                     .font(.headline)
                                 Text(log.medication?.dosage ?? "--")
@@ -46,7 +46,7 @@ struct HistoryView: View {
                             }
                         }
                     }
-                    // Optional: Löschen von Einträgen aus dem Verlauf
+                    
                     .onDelete(perform: deleteLog)
                 }
             }
