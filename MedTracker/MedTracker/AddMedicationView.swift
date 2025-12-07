@@ -18,6 +18,8 @@ struct AddMedicationView: View {
     @State private var notes = ""
     @State private var reminderTime = Date()
     @State private var isActive = true
+    @State private var frequency: Frequency = .daily
+    @State private var interval: Int = 1
     
     var body: some View {
         NavigationStack {
@@ -52,8 +54,22 @@ struct AddMedicationView: View {
     
     private var scheduleSection: some View {
         Section("Zeitplan") {
-            DatePicker("Einnahmezeit", selection: $reminderTime, displayedComponents: .hourAndMinute)
             Toggle("Erinnerung aktiv", isOn: $isActive)
+
+            if isActive {
+                DatePicker("Uhrzeit", selection: $reminderTime, displayedComponents: .hourAndMinute)
+
+                Picker("Häufigkeit", selection: $frequency) {
+                    ForEach(Frequency.allCases) { freq in
+                        Text(freq.rawValue).tag(freq)
+                    }
+                }
+
+                // Bedingte Anzeige: Nur wenn "Alle X Tage" gewählt ist
+                if frequency == .everyXDays {
+                    Stepper("Alle \(interval) Tage", value: $interval, in: 2...365)
+                }
+            }
         }
     }
     
@@ -91,9 +107,11 @@ struct AddMedicationView: View {
             dosage: dosage,
             notes: notes,
             isActive: isActive,
-            reminderTime: reminderTime
+            reminderTime: reminderTime,
+            frequency: frequency,   
+            interval: interval
         )
-        
+
         modelContext.insert(newMedication)
         dismiss()
     }

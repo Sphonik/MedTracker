@@ -4,7 +4,6 @@
 //
 //  Created by Mohamed Bondok on 07.12.25.
 //
-
 import SwiftUI
 import SwiftData
 
@@ -37,23 +36,33 @@ struct MedicationDetailView: View {
     
     private var scheduleSection: some View {
         Section("Zeitplan") {
-            HStack {
-                Text("Erinnerungszeit")
-                Spacer()
-                Text(medication.reminderTime.formatted(date: .omitted, time: .shortened))
-                    .foregroundStyle(.secondary)
+            // 1. Uhrzeit anzeigen/ändern
+            DatePicker("Erinnerungszeit", selection: $medication.reminderTime, displayedComponents: .hourAndMinute)
+            
+            // 2. Häufigkeit anzeigen/ändern (NEU HINZUGEFÜGT)
+            Picker("Häufigkeit", selection: $medication.frequency) {
+                ForEach(Frequency.allCases) { freq in
+                    Text(freq.rawValue).tag(freq)
+                }
+            }
+            
+            // 3. Intervall anzeigen, falls nötig (NEU HINZUGEFÜGT)
+            if medication.frequency == .everyXDays {
+                Stepper("Alle \(medication.interval) Tage", value: $medication.interval, in: 2...365)
             }
         }
     }
     
     private var notesSection: some View {
         Section("Notizen") {
+            // Hier nutzen wir TextEditor, damit man Notizen auch ändern kann
+            TextEditor(text: $medication.notes)
+                .frame(height: 100)
+            
             if medication.notes.isEmpty {
-                Text("Keine Notizen vorhanden")
-                    .foregroundStyle(.tertiary)
-                    .italic()
-            } else {
-                Text(medication.notes)
+                Text("Keine Notizen hinterlegt")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
         }
     }

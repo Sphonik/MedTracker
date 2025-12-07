@@ -12,13 +12,38 @@ struct MedicationRowView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(medication.name)
-                .font(.headline)
+            HStack {
+                Text(medication.name)
+                    .font(.headline)
+                Spacer()
+                // Zeigt z.B. "08:00" an
+                if medication.isActive {
+                    Text(medication.reminderTime, style: .time)
+                        .font(.caption)
+                        .foregroundStyle(.blue)
+                }
+            }
             
-            Text(medication.dosage)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+            HStack {
+                Text(medication.dosage)
+                Text("•")
+                Text(scheduleDescription)
+            }
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
         }
         .padding(.vertical, 4)
+    }
+    
+    // Computed Property für sauberen Text
+    private var scheduleDescription: String {
+        if !medication.isActive { return "Pausiert" }
+        
+        switch medication.frequency {
+        case .everyXDays:
+            return "Alle \(medication.interval) Tage"
+        default:
+            return medication.frequency.rawValue
+        }
     }
 }
