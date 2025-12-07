@@ -11,53 +11,70 @@ struct MedicationRowView: View {
     let medication: Medication
     
     var body: some View {
-        HStack {
+        HStack(spacing: 16) {
             
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    Text(medication.name)
-                        .font(.headline)
-                    
-                    Spacer()
-                    
-                    // Zeigt z.B. "08:00" an, wenn aktiv
-                    if medication.isActive {
-                        Text(medication.reminderTime, style: .time)
-                            .font(.caption)
-                            .foregroundStyle(.blue)
-                    }
+            VStack {
+                if medication.isActive {
+                    Text(medication.reminderTime, style: .time)
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.blue)
+                } else {
+                    Image(systemName: "pause.circle")
+                        .font(.title3)
+                        .foregroundStyle(.gray)
+                }
+            }
+            .frame(width: 60) 
+            
+            
+            HStack(spacing: 12) {
+                
+                if let image = medication.uiImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.gray.opacity(0.2), lineWidth: 1))
                 }
                 
-                HStack {
-                    Text(medication.dosage)
-                    Text("•")
-                    Text(scheduleDescription)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(medication.name)
+                        .font(.headline)
+                        .foregroundStyle(.primary)
+                    
+                    HStack(spacing: 4) {
+                        Text(medication.dosage)
+                        Text("•")
+                        Text(scheduleDescription)
+                    }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
                 }
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
             }
             
-    
+            Spacer()
+            
+            
             if medication.isTakenToday {
-                Spacer()
                 Image(systemName: "checkmark.circle.fill")
-                    .font(.title2)
+                    .font(.title)
                     .foregroundStyle(.green)
-                    .padding(.leading, 8)
             }
         }
-        .padding(.vertical, 4)
+        .padding() 
+        .background(Color(.systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
     }
     
-    // Computed Property für sauberen Text
+    // Helper für den Text
     private var scheduleDescription: String {
         if !medication.isActive { return "Pausiert" }
-        
         switch medication.frequency {
-        case .everyXDays:
-            return "Alle \(medication.interval) Tage"
-        default:
-            return medication.frequency.rawValue
+        case .everyXDays: return "Alle \(medication.interval) Tage"
+        default: return medication.frequency.rawValue
         }
     }
 }

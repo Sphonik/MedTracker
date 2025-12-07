@@ -16,15 +16,37 @@ struct MedicationListView: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(medications) { medication in
-                    NavigationLink(destination: MedicationDetailView(medication: medication)) {
-                        MedicationRowView(medication: medication)
+            ZStack {
+                Color(.systemGroupedBackground)
+                    .ignoresSafeArea()
+                
+                VStack(spacing: 0) {
+                    headerView
+                        .padding(.horizontal)
+                        .padding(.bottom, 10)
+                        .background(Color(.systemGroupedBackground))
+                    
+                    
+                    List {
+                        ForEach(medications) { medication in
+                            ZStack {
+                                NavigationLink(destination: MedicationDetailView(medication: medication)) {
+                                    EmptyView()
+                                }
+                                .opacity(0)
+                                
+                                MedicationRowView(medication: medication)
+                            }
+                            .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.clear)
+                        }
+                        .onDelete(perform: deleteMedication)
                     }
+                    .listStyle(.plain) // Standard-Stil entfernen
                 }
-                .onDelete(perform: deleteMedication)
             }
-            .navigationTitle("MedTracker")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     addButton
@@ -38,9 +60,33 @@ struct MedicationListView: View {
     
     // MARK: - Subviews
     
+    private var headerView: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text("Hallo!")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                
+                Text("Deine Medikamente")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundStyle(.primary)
+                
+                Text(Date().formatted(date: .complete, time: .omitted))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .textCase(.uppercase)
+            }
+            Spacer()
+        }
+        .padding(.top, 10)
+    }
+    
     private var addButton: some View {
         Button(action: showAddSheet) {
-            Image(systemName: "plus")
+            Image(systemName: "plus.circle.fill")
+                .font(.title2)
+                .foregroundStyle(.blue)
         }
     }
     
@@ -52,7 +98,8 @@ struct MedicationListView: View {
     
     private func deleteMedication(at offsets: IndexSet) {
         for index in offsets {
-            let medicationToDelete = medications[index]
+            let medicationToDelete = medications[index]            
+            NotificationManager.shared.cancelNotification(for: medicationToDelete)
             modelContext.delete(medicationToDelete)
         }
     }
