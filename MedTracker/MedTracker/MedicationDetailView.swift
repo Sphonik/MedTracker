@@ -17,6 +17,7 @@ struct MedicationDetailView: View {
     @State private var reminderTime: Date = Date()
     @State private var frequency: Frequency = .daily
     @State private var interval: Int = 1
+    @State private var selectedImage: UIImage?
     
     // UI State
     @State private var showDeleteConfirmation = false
@@ -24,6 +25,15 @@ struct MedicationDetailView: View {
     
     var body: some View {
         Form {
+            Section {
+                HStack {
+                    Spacer()
+                    MedicationImageButton(selectedImage: $selectedImage)
+                    Spacer ()
+                    
+                }
+            }
+            .listRowBackground(Color.clear)
             detailsSection
             scheduleSection
             notesSection
@@ -69,7 +79,8 @@ struct MedicationDetailView: View {
         isActive != medication.isActive ||
         frequency != medication.frequency ||
         interval != medication.interval ||
-        reminderTime.compare(medication.reminderTime) != .orderedSame
+        reminderTime.compare(medication.reminderTime) != .orderedSame || // Hier fehlte das ||
+        selectedImage?.jpegData(compressionQuality: 0.8) != medication.imageData
     }
     
     // MARK: - View Components
@@ -151,25 +162,30 @@ struct MedicationDetailView: View {
     }
     
     private func loadData() {
-        self.name = medication.name
-        self.dosage = medication.dosage
-        self.notes = medication.notes
-        self.isActive = medication.isActive
-        self.reminderTime = medication.reminderTime
-        self.frequency = medication.frequency
-        self.interval = medication.interval
-    }
+            self.name = medication.name
+            self.dosage = medication.dosage
+            self.notes = medication.notes
+            self.isActive = medication.isActive
+            self.reminderTime = medication.reminderTime
+            self.frequency = medication.frequency
+            self.interval = medication.interval
+            
+            if let data = medication.imageData {
+                self.selectedImage = UIImage(data: data)
+            }
+        }
     
     private func saveChanges() {
-        medication.name = name
-        medication.dosage = dosage
-        medication.notes = notes
-        medication.isActive = isActive
-        medication.reminderTime = reminderTime
-        medication.frequency = frequency
-        medication.interval = interval
-        dismiss()
-    }
+            medication.name = name
+            medication.dosage = dosage
+            medication.notes = notes
+            medication.isActive = isActive
+            medication.reminderTime = reminderTime
+            medication.frequency = frequency
+            medication.interval = interval
+            medication.imageData = selectedImage?.jpegData(compressionQuality: 0.8)            
+            dismiss()
+        }
     
     private func deleteMedication() {
         modelContext.delete(medication)

@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import UIKit
 
 // Enum für die Auswahl-Logik. Codable ist wichtig für SwiftData.
 enum Frequency: String, Codable, CaseIterable, Identifiable {
@@ -28,7 +29,17 @@ class Medication {
     var isActive: Bool
     var reminderTime: Date
     var frequency: Frequency
-    var interval: Int // Wird nur genutzt, wenn frequency == .everyXDays
+    var interval: Int
+    
+    // NEU: Bildspeicher mit externer Speicherung für Performance
+    @Attribute(.externalStorage) var imageData: Data?
+    
+    // Computed Property für leichteren Zugriff in der UI
+    @Transient // Wird nicht in der DB gespeichert, nur zur Laufzeit berechnet
+    var uiImage: UIImage? {
+        guard let imageData else { return nil }
+        return UIImage(data: imageData)
+    }
     
     init(name: String,
          dosage: String,
@@ -36,7 +47,8 @@ class Medication {
          isActive: Bool = true,
          reminderTime: Date = Date(),
          frequency: Frequency = .daily,
-         interval: Int = 1) {
+         interval: Int = 1,
+         imageData: Data? = nil) { // NEU im Init
         
         self.id = UUID()
         self.name = name
@@ -46,5 +58,6 @@ class Medication {
         self.reminderTime = reminderTime
         self.frequency = frequency
         self.interval = interval
+        self.imageData = imageData
     }
 }

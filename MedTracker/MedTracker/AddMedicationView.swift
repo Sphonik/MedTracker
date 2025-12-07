@@ -14,6 +14,7 @@ struct AddMedicationView: View {
     
     // Form State
     @State private var name = ""
+    @State private var selectedImage: UIImage?
     @State private var dosage = ""
     @State private var notes = ""
     @State private var reminderTime = Date()
@@ -24,6 +25,15 @@ struct AddMedicationView: View {
     var body: some View {
         NavigationStack {
             Form {
+                Section  {
+                    HStack {
+                        Spacer()
+                        MedicationImageButton(selectedImage: $selectedImage)
+                        Spacer()
+                    }
+                }
+                .listRowBackground(Color.clear)
+                
                 detailsSection
                 scheduleSection
                 notesSection
@@ -101,18 +111,23 @@ struct AddMedicationView: View {
         !dosage.trimmingCharacters(in: .whitespaces).isEmpty
     }
     
+   
     private func saveMedication() {
-        let newMedication = Medication(
-            name: name,
-            dosage: dosage,
-            notes: notes,
-            isActive: isActive,
-            reminderTime: reminderTime,
-            frequency: frequency,   
-            interval: interval
-        )
-
-        modelContext.insert(newMedication)
-        dismiss()
-    }
+            
+            let imageData = selectedImage?.jpegData(compressionQuality: 0.8)
+            
+            let newMedication = Medication(
+                name: name,
+                dosage: dosage,
+                notes: notes,
+                isActive: isActive,
+                reminderTime: reminderTime,
+                frequency: frequency,
+                interval: interval,
+                imageData: imageData // NEU: Übergeben
+            )
+            
+            modelContext.insert(newMedication)
+            dismiss()
+        }
 }

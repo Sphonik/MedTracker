@@ -7,12 +7,26 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		D5F32A4E2EE5AB780022C102 /* MedTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MedTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5F32A802EE5CA050022C102 /* MedTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = MedTracker.app; path = "/Users/mohamedbondok/Desktop/Uni/MSC FH Campus/Semester 3/Mobile App Development/Project MedTracker/MedTracker/MedTracker/build/Debug-iphoneos/MedTracker.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D5F32A7E2EE5C9160022C102 /* Exceptions for "MedTracker" folder in "MedTracker" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Untitled 2.swift",
+				Untitled.swift,
+			);
+			target = D5F32A4D2EE5AB780022C102 /* MedTracker */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D5F32A502EE5AB780022C102 /* MedTracker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D5F32A7E2EE5C9160022C102 /* Exceptions for "MedTracker" folder in "MedTracker" target */,
+			);
 			path = MedTracker;
 			sourceTree = "<group>";
 		};
@@ -33,16 +47,7 @@
 			isa = PBXGroup;
 			children = (
 				D5F32A502EE5AB780022C102 /* MedTracker */,
-				D5F32A4F2EE5AB780022C102 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		D5F32A4F2EE5AB780022C102 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D5F32A4E2EE5AB780022C102 /* MedTracker.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -67,7 +72,7 @@
 			packageProductDependencies = (
 			);
 			productName = MedTracker;
-			productReference = D5F32A4E2EE5AB780022C102 /* MedTracker.app */;
+			productReference = D5F32A802EE5CA050022C102 /* MedTracker.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -95,7 +100,7 @@
 			mainGroup = D5F32A452EE5AB780022C102;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = D5F32A4F2EE5AB780022C102 /* Products */;
+			productRefGroup = D5F32A452EE5AB780022C102;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -253,6 +258,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Wir benötigen Zugriff auf die Kamera, um Fotos deiner Medikamente aufzunehmen.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Wir benötigen Zugriff, um ein Foto aus deiner Galerie auszuwählen.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -280,6 +287,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Wir benötigen Zugriff auf die Kamera, um Fotos deiner Medikamente aufzunehmen.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Wir benötigen Zugriff, um ein Foto aus deiner Galerie auszuwählen.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
