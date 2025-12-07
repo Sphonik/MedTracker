@@ -18,6 +18,7 @@ struct MedicationDetailView: View {
     @State private var frequency: Frequency = .daily
     @State private var interval: Int = 1
     @State private var selectedImage: UIImage?
+    @State private var justTakenAnimation = false
     
     // UI State
     @State private var showDeleteConfirmation = false
@@ -34,15 +35,16 @@ struct MedicationDetailView: View {
                 }
             }
             .listRowBackground(Color.clear)
+            actionSection
             detailsSection
             scheduleSection
             notesSection
+            historySection
             settingsSection
             deleteSection
         }
         .navigationTitle(name.isEmpty ? "Details" : name)
         .navigationBarTitleDisplayMode(.inline)
-        // 1. Standard-Button verstecken
         .navigationBarBackButtonHidden(true)
         .toolbar {
             // 2. Eigener Zurück-Button
@@ -71,6 +73,16 @@ struct MedicationDetailView: View {
     
     // MARK: - Logic Helpers
     
+    private func logIntake() {
+            let log = IntakeLog()
+            medication.logs.append(log)
+            
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+            
+            dismiss()
+        }
+    
     
     private var hasChanges: Bool {
         name != medication.name ||
@@ -84,6 +96,53 @@ struct MedicationDetailView: View {
     }
     
     // MARK: - View Components
+    
+    private var actionSection: some View {
+            Section {
+                if medication.isTakenToday {
+                    HStack {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundStyle(.green)
+                            .font(.title2)
+                        Text("Heute bereits eingenommen")
+                            .foregroundStyle(.secondary)
+                    }
+                } else {
+                    Button(action: logIntake) {
+                        HStack {
+                            Spacer()
+                            Text("Jetzt einnehmen")
+                                .font(.headline)
+                            Image(systemName: "pills.fill")
+                            Spacer()
+                        }
+                    }
+                    .tint(.blue)
+                    .listRowBackground(Color.blue.opacity(0.1)) // Leicht blauer Hintergrund
+                }
+            }
+        }
+    
+    private var historySection: some View {
+            Section("Verlauf") {
+                if medication.logs.isEmpty {
+                    Text("Noch keine Einnahmen")
+                        .foregroundStyle(.secondary)
+                        .italic()
+                } else {
+                    // Wir zeigen nur die letzten 5 Einträge, um die Liste nicht zu sprengen
+                    ForEach(medication.sortedHistory.prefix(5)) { log in
+                        HStack {
+                            Text(log.date.formatted(date: .abbreviated, time: .shortened))
+                            Spacer()
+                            Image(systemName: "checkmark")
+                                .font(.caption)
+                                .foregroundStyle(.green)
+                        }
+                    }
+                }
+            }
+        }
     
     private var backButton: some View {
         Button(action: handleBackPress) {
@@ -183,11 +242,13 @@ struct MedicationDetailView: View {
             medication.reminderTime = reminderTime
             medication.frequency = frequency
             medication.interval = interval
-            medication.imageData = selectedImage?.jpegData(compressionQuality: 0.8)            
+            medication.imageData = selectedImage?.jpegData(compressionQuality: 0.8)
+            NotificationManager.shared.scheduleNotification(for: medication)
             dismiss()
         }
     
     private func deleteMedication() {
+        NotificationManager.shared.cancelNotification(for: medication)
         modelContext.delete(medication)
         dismiss()
     }

@@ -124,10 +124,11 @@ struct AddMedicationView: View {
                 reminderTime: reminderTime,
                 frequency: frequency,
                 interval: interval,
-                imageData: imageData // NEU: Übergeben
+                imageData: imageData 
             )
             
             modelContext.insert(newMedication)
+            NotificationManager.shared.scheduleNotification(for: newMedication)
             dismiss()
         }
 }

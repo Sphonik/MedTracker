@@ -7,26 +7,12 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		D5F32A802EE5CA050022C102 /* MedTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = MedTracker.app; path = "/Users/mohamedbondok/Desktop/Uni/MSC FH Campus/Semester 3/Mobile App Development/Project MedTracker/MedTracker/MedTracker/build/Debug-iphoneos/MedTracker.app"; sourceTree = "<absolute>"; };
+		D5F32A992EE5CAAC0022C102 /* MedTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = MedTracker.app; path = "/Users/mohamedbondok/Desktop/Uni/MSC FH Campus/Semester 3/Mobile App Development/Project MedTracker/MedTracker/MedTracker/build/Debug-iphoneos/MedTracker.app"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		D5F32A7E2EE5C9160022C102 /* Exceptions for "MedTracker" folder in "MedTracker" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"Untitled 2.swift",
-				Untitled.swift,
-			);
-			target = D5F32A4D2EE5AB780022C102 /* MedTracker */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D5F32A502EE5AB780022C102 /* MedTracker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				D5F32A7E2EE5C9160022C102 /* Exceptions for "MedTracker" folder in "MedTracker" target */,
-			);
 			path = MedTracker;
 			sourceTree = "<group>";
 		};
@@ -72,7 +58,7 @@
 			packageProductDependencies = (
 			);
 			productName = MedTracker;
-			productReference = D5F32A802EE5CA050022C102 /* MedTracker.app */;
+			productReference = D5F32A992EE5CAAC0022C102 /* MedTracker.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

@@ -31,8 +31,12 @@ class Medication {
     var frequency: Frequency
     var interval: Int
     
-    // NEU: Bildspeicher mit externer Speicherung für Performance
+    // Bildspeicher mit externer Speicherung für Performance
     @Attribute(.externalStorage) var imageData: Data?
+    
+    // Liste der Einnahmen.
+    @Relationship(deleteRule: .cascade, inverse: \IntakeLog.medication)
+    var logs: [IntakeLog] = []
     
     // Computed Property für leichteren Zugriff in der UI
     @Transient // Wird nicht in der DB gespeichert, nur zur Laufzeit berechnet
@@ -59,5 +63,23 @@ class Medication {
         self.frequency = frequency
         self.interval = interval
         self.imageData = imageData
+    }
+}
+
+
+import Foundation
+
+extension Medication {
+    /// Prüft, ob für den heutigen Tag bereits ein Log-Eintrag existiert
+    var isTakenToday: Bool {
+        let calendar = Calendar.current
+        return logs.contains { log in
+            calendar.isDateInToday(log.date)
+        }
+    }
+    
+    /// Gibt die Logs sortiert nach Datum zurück (neueste zuerst)
+    var sortedHistory: [IntakeLog] {
+        logs.sorted { $0.date > $1.date }
     }
 }

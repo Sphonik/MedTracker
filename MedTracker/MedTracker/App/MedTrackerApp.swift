@@ -10,9 +10,14 @@ import SwiftData
 
 @main
 struct MedTrackerApp: App {
+    
+    init() {
+        NotificationManager.shared.requestAuthorization()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            MedicationListView()
+            ContentView() 
         }
         .modelContainer(for: Medication.self)
     }
